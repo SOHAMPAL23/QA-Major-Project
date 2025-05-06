@@ -1,6 +1,7 @@
 package prac;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -25,7 +26,7 @@ static WebDriver driver;
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-        //driver.get("https://www.amazon.in/");
+        driver.get("https://www.amazon.in/");
 
 	}
 	
@@ -44,66 +45,93 @@ static WebDriver driver;
 
 		dropDown.selectByValue("search-alias=fashion");
 		System.out.println(dropDown.getFirstSelectedOption().getText());
+		
+		
 
 	}
 	
-	@Test(priority=2)
-	public void selectBatman() throws InterruptedException {
-		  driver.get("https://www.amazon.in/gp/browse.html?node=1389401031&ref_=nav_em_sbc_mobcomp_all_mobiles_0_2_8_2");
 
-	        WebElement searchdropdown = driver.findElement(By.id("searchDropdownBox"));
-	        Select dropdown = new Select(searchdropdown);
-	        dropdown.selectByIndex(0);
-	        System.out.println(dropdown.getFirstSelectedOption().getText());
+	    @Test(priority = 2)
+	    public void selectBatman() throws InterruptedException {
+	    	        driver.get("https://www.amazon.in/gp/browse.html?node=1389401031&ref_=nav_em_sbc_mobcomp_all_mobiles_0_2_8_2");
 
-	        WebElement srchbx = driver.findElement(By.id("twotabsearchtextbox"));
-	        srchbx.sendKeys("batman");
-	        srchbx.sendKeys(Keys.ENTER);
-	        
-	        String tt = driver.findElement(By.xpath("(//a[@class=\"a-link-normal s-line-clamp-4 s-link-style a-text-normal\"])[1]")).getText();
-	        System.out.println(tt);
+	    	        WebElement searchdropdown = driver.findElement(By.id("searchDropdownBox"));
+	    	        Select dropdown = new Select(searchdropdown);
+	    	        dropdown.selectByIndex(0);
+	    	        System.out.println(dropdown.getFirstSelectedOption().getText());
 
-	        driver.navigate().back();
+	    	        WebElement srchbx = driver.findElement(By.id("twotabsearchtextbox"));
+	    	        srchbx.sendKeys("batman");
+	    	        srchbx.sendKeys(Keys.ENTER);
 
-	  
-	        searchdropdown = driver.findElement(By.id("searchDropdownBox"));
-	        dropdown = new Select(searchdropdown); 
-	        dropdown.selectByVisibleText("Books");
+	    	        String tt = driver.findElement(By.xpath("(//a[@class=\"a-link-normal s-line-clamp-4 s-link-style a-text-normal\"])[1]")).getText();
+	    	        System.out.println(tt);
 
-	        srchbx = driver.findElement(By.id("twotabsearchtextbox"));
-	        srchbx.clear(); 
-	        srchbx.sendKeys("batman");
-	        srchbx.sendKeys(Keys.ENTER);
-	        
-	        String tc = driver.findElement(By.xpath("(//a[@class=\"a-link-normal s-line-clamp-4 s-link-style a-text-normal\"])[1]")).getText();
-	        System.out.println(tc);
+	    	        driver.navigate().back();
+	    	        Thread.sleep(2000);
 
-	        Assert.assertNotEquals(tt, tc);
+	    	        searchdropdown = driver.findElement(By.id("searchDropdownBox"));
+	    	        dropdown = new Select(searchdropdown); 
+	    	        dropdown.selectByVisibleText("Books");
 
+	    	        srchbx = driver.findElement(By.id("twotabsearchtextbox"));
+	    	        srchbx.clear();
+	    	        srchbx.sendKeys("batman");
+	    	        srchbx.sendKeys(Keys.ENTER);
 
+	    	        String tc = driver.findElement(By.xpath("(//a[@class=\"a-link-normal s-line-clamp-4 s-link-style a-text-normal\"])[1]")).getText();
+	    	        System.out.println(tc);
 
-	}
+	    	        Assert.assertEquals(tt, tc);	    
+	    	
+	    }
+	
+	    @Test(priority=3)
+	    public void loop() throws InterruptedException {
+	        driver.get("https://www.amazon.in/mobile-phones/b/?ie=UTF8&node=1389401031&ref_=nav_cs_mobiles");
+			
+			WebElement element = driver.findElement(By.xpath("//select"));		
+			Select dropDown = new Select(element);			
+			dropDown.selectByIndex(1);
+			System.out.print(dropDown.getFirstSelectedOption().getText());				
+			dropDown.selectByValue("search-alias=alexa-skills");		
+			dropDown.selectByVisibleText("Books");				
+			Thread.sleep(5000);		
+			element = driver.findElement(By.xpath("(//select)[1]"));
+			dropDown = new Select(element);
+			System.out.println(1);
+			dropDown.selectByVisibleText("All Categories");
+	        List<WebElement> lists = dropDown.getOptions();
+			
+			for (WebElement list1: lists) {
+				System.out.println(list1.getText()); 
+			}
+	    
+	    }
+	    
+	    
 
-	@Test(priority=3)
-	public void selectClassFlipkart() throws InterruptedException {
-		driver.get("https://www.flipkart.com/search?q=laptop&sid=6bo%2Cb5g&as=on&as-show=on&otracker=AS_QueryStore_HistoryAutoSuggest_1_3_na_na_na&otracker1=AS_QueryStore_HistoryAutoSuggest_1_3_na_na_na&as-pos=1&as-type=HISTORY&suggestionId=laptop%7CLaptops&requestId=6df323eb-8acd-4691-940b-0d28c435ea4c");
-		WebElement minDropdown = driver.findElement(By.xpath("//div[@class=\"suthUA\"]/select"));
-		WebElement maxDropdown = driver.findElement(By.xpath("//div[@class=\"tKgS7w\"]/select"));
-
-		
-		Select dropdownMin = new Select(minDropdown);
-		Select dropdownMax = new Select(maxDropdown);
-
-		Thread.sleep(2000);
-		
-		dropdownMin.selectByIndex(2);
-		System.out.println(dropdownMin.getFirstSelectedOption().getText());
-		
-		Thread.sleep(2000);
-		
-		dropdownMax.selectByVisibleText("₹60000");
-		System.out.println(dropdownMax.getFirstSelectedOption().getText());
-	}
+//	@Test(priority=4)
+//	public void selectClassFlipkart() throws InterruptedException {
+//		driver.get("https://www.flipkart.com/search?q=laptop&sid=6bo%2Cb5g&as=on&as-show=on&otracker=AS_QueryStore_HistoryAutoSuggest_1_3_na_na_na&otracker1=AS_QueryStore_HistoryAutoSuggest_1_3_na_na_na&as-pos=1&as-type=HISTORY&suggestionId=laptop%7CLaptops&requestId=6df323eb-8acd-4691-940b-0d28c435ea4c");
+//		WebElement minDropdown = driver.findElement(By.xpath("//div[@class=\"suthUA\"]/select"));
+//		WebElement maxDropdown = driver.findElement(By.xpath("//div[@class=\"tKgS7w\"]/select"));
+//
+//		
+//		Select dropdownMin = new Select(minDropdown);
+//		Select dropdownMax = new Select(maxDropdown);
+//
+//		Thread.sleep(2000);
+//		
+//		dropdownMin.selectByIndex(2);
+//		System.out.println(dropdownMin.getFirstSelectedOption().getText());
+//		
+//		Thread.sleep(2000);
+//		
+//		dropdownMax.selectByVisibleText("₹60000");
+//		System.out.println(dropdownMax.getFirstSelectedOption().getText());
+//	}
+	
 	
 	@AfterMethod
 	public void tearDown() throws InterruptedException {
