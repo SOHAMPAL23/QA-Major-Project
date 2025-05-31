@@ -162,10 +162,7 @@ public class Action {
     	id="hiddenButton";
     	element=driver.findElement(By.id(id));
     	
-     element.click();
-
-    	
-    
+    	element.click();
     	
     	xpath="(//section[@class=\"section\"])[7]/p";
     	String txt=driver.findElement(By.xpath(xpath)).getText();

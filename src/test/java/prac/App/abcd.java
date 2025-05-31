@@ -1,4 +1,4 @@
-package prac;
+package prac.App;
 
 import java.time.Duration;
 
